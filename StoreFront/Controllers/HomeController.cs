@@ -4,26 +4,23 @@ namespace StoreFront.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult About()
+        public ActionResult Products()
         {
-            ViewBag.Message = "Your app description page.";
-
             return View();
         }
 
-        [HttpGet]
+        public ActionResult About()
+        {
+            return View();
+        }
+
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
