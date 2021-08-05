@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreFrontData", "StoreFrontData\StoreFrontData.csproj", "{6C69AC0B-755B-4ACA-AA86-CF0B13A41C47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreFront.DATA", "StoreFront.DATA\StoreFront.DATA.csproj", "{23CF2D5D-2CC0-4021-A266-F751C1BD7626}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{C1468117-798A-46EE-A6D5-63DE87D30202}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1468117-798A-46EE-A6D5-63DE87D30202}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1468117-798A-46EE-A6D5-63DE87D30202}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6C69AC0B-755B-4ACA-AA86-CF0B13A41C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6C69AC0B-755B-4ACA-AA86-CF0B13A41C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6C69AC0B-755B-4ACA-AA86-CF0B13A41C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6C69AC0B-755B-4ACA-AA86-CF0B13A41C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23CF2D5D-2CC0-4021-A266-F751C1BD7626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23CF2D5D-2CC0-4021-A266-F751C1BD7626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23CF2D5D-2CC0-4021-A266-F751C1BD7626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23CF2D5D-2CC0-4021-A266-F751C1BD7626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,113 @@
+﻿@model StoreFront.DATA.Game
+
+@{
+    ViewBag.Title = $"{Model.GameTitles}";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="col-md-6">
+    <h4>Game</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GameTitles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameTitles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalSales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalSales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Image)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Image)
+            </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Console.ConsoleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Console.ConsoleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genre.GenreName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Publisher.PublisherName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Publisher.PublisherName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockStatus.IsInStock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockStatus.IsInStock)
+        </dd>
+
+    </dl>
+    <div class="col-md-6">
+        <img src="~/Content/images/gamesCovers/@Model.Image" alt="Game cover" title="@Model.GameTitles" />
+    </div>
+
+    <p>
+        @using (Html.BeginForm("AddToCart", "Games", new { @gameId = Model.GameID }, FormMethod.Post, new { @class = "text-center" }))
+        {
+            @Html.HiddenFor(x => x.GameID)
+            <span class="label">Quantity: </span>
+            @Html.TextBox("Quanity", 1, new { @class = "form-control", @style = "max-wdith: 50px; display: inline;" })
+            <input type="submit" value="Add to Cart" class="btn btn-primary" name="quanity" />
+        }
+    </p>
+
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GameID }) |
+    @Html.ActionLink("Back to List", "Paging", "Filters")
+</p>

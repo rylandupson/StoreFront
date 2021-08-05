@@ -1,0 +1,100 @@
+﻿<div class="page-heading products-heading header-text">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-content">
+                    <h4>our products</h4>
+                    <h2>search our great products!</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@model PagedList.IPagedList<StoreFront.DATA.Game>
+@using PagedList.Mvc
+
+@* Search Func *@
+<div class="col-md-12">
+    @using (Html.BeginForm("Paging", "Filters", FormMethod.Get))
+    {
+        <p>
+            @Html.TextBox("SearchString", ViewBag.SearchString as string)
+            <input type="submit" class="btn btn-primary" value="Search" />
+            @Html.ActionLink("Refresh", "Paging", "Filters", null, new { @class = "btn btn-primary" })
+        </p>
+    }
+</div>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Paging", new { page, searchString = ViewBag.SearchString }))
+
+@*<div class="row">
+    <div class="col-md-12 text-center">
+        @foreach (var genre in ViewBag.Genre)
+        {
+            string name = genre;
+            if (!(genre.IndexOf(' ') < 0))
+            {
+                name = genre.Substring(0, genre.IndexOf(' '));
+            }
+
+            <button class="btn btn-info" id="genre-@genre" onlick="filter('@name')">@genre</button>
+        }
+    </div>
+</div>*@
+
+<section class="row col-md-offset-12" id="paging">
+    @foreach (var item in Model)
+    {
+        <!--Added the dynamic class below, so that we can use this for filerting pruposes to show or hide certain books based on what the user chooses. Also added structures instead of all other divs in the HTML-->
+        <div class="latest-products">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div @*class="col-md-3 @(item.Genre.GenreName) book"*@>
+                            <div class="product-item">
+                                <div class="course">
+                                    <a href="@Url.Action("Details", "Games", new { id = item.GameID })" class="course-img">
+                                        <img src="~/Content/images/gamesCovers/@item.Image" title="@item.GameTitles">
+                                        <i class="course-link-icon fa-shopping-cart fa fa-link"></i>
+                                    </a>
+                                    <a class="course-title" href="@Url.Action("Details", "Games", new { id = item.GameID })">@item.GameTitles</a>
+                                    <div class="course-details">
+                                        @if (item.Console != null)
+                                        {
+                                            <span class="course-category">
+                                                @Html.DisplayFor(modelItem => item.Console.ConsoleName)
+                                            </span>
+                                        }
+                                        <span class="course-price course-free">
+                                            @Html.DisplayFor(modelItem => item.Price)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</section>
+
+@section scripts {
+    @*<script>
+        //Go find the node with the #bookGrid, select all div.book inside of them. For each div, determine if it has the class with the genre name that is passed to the function. If it does, show the item (else). If it doesn't (if), hide the item.
+        function filter(genre) {
+            $('#paging div.game').each(function () {
+                if (!$(this).hasClass(genre)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        }
+    </script>*@
+}

@@ -1,0 +1,37 @@
+﻿@model StoreFront.DATA.Genre
+
+@{
+    ViewBag.Title = "AjaxCreate";
+}
+
+<h2>AjaxCreate</h2>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "GenreCreateForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @*<h4>Genre</h4>
+        <hr />*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.GenreName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.GenreName, new { htmlAttributes = new { @class = "form-control", placeholder = "Genre" } })
+                @Html.ValidationMessageFor(model => model.GenreName, "", new { @class = "text-danger" })
+            </div>
+        @*</div>
+
+        <div class="form-group">*@
+            <div class="col-md-1">
+                <input type="submit" value="Create" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+

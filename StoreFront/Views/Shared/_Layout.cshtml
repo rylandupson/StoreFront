@@ -9,10 +9,10 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <title>Sixteen Clothing HTML Template</title>
+    <title>Ryland's Game StoreFront</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    @*<link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">*@
     <!--
 
     TemplateMo 546 Sixteen Clothing
@@ -21,9 +21,15 @@
 
     -->
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="~/Content/css/fontawesome.css">
-    <link rel="stylesheet" href="~/Content/css/templatemo-sixteen.css">
-    <link rel="stylesheet" href="~/Content/css/owl.css">
+    @*<link rel="stylesheet" href="~/Content/css/fontawesome.css">
+        <link rel="stylesheet" href="~/Content/css/templatemo-sixteen.css">
+        <link rel="stylesheet" href="~/Content/css/owl.css">*@
+
+    @* ADDED jQueryUI CSS CDN - note: themenames are swappable.*@
+    @*NOTE, Module 5 AJAX: find names at jqueryui.com/themeroller, gallyery tab (like excite-bike, south-street or sunny)*@
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css">
+
+    @Styles.Render("~/Content/css")
 
 </head>
 
@@ -42,26 +48,53 @@
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.html"><h2>Sixteen <em>Clothing</em></h2></a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")"><h2>Ryland's <em>StoreFront</em></h2></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <a class="text-white" href="@Url.Action("Index", "Home")">
                                 Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Products", "Home")">Our Products</a>
+                            <a class="text-white" href="@Url.Action("Paging", "Filters")">Our Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("About", "Home")">About Us</a>
+                            <a class="text-white" href="@Url.Action("About", "Home")">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
+                            <a class="text-white" href="@Url.Action("Contact", "Home")">Contact Us</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="text-white" href="@Url.Action("Index", "Games")">Edit Games</a>
+                            </li>
+                            <li>
+                                <a class="text-white" href="@Url.Action("Index", "Genres")">Edit Genres</a>
+                            </li>
+                        }
+                        <li class="navi-item">
+                            @Html.Partial("_LoginPartial")
+                        </li>
+                        <li class="nav-item">
+                            @* Only show the cart icon if session cart exists and has more than 0 items in it. *@
+                            @if (Session["cart"] != null && ViewBag.CountItems > 0)
+                            {
+                                <a class="text-white" href="@Url.Action("Index", "ShoppingCart")">@*<i class="fa fa-shopping-cart"/>*@Cart (@ViewBag.CountItems)</a>
+
+
+
+                            }
+                            else
+                            {
+                                <a class="text-white" href="@Url.Action("Index", "ShoppingCart")">Cart</a>
+
+                            }
                         </li>
                     </ul>
                 </div>
@@ -69,7 +102,9 @@
         </nav>
     </header>
 
-    @RenderBody()
+    <div class="container body-content">
+        @RenderBody()
+    </div>
 
     <footer>
         <div class="container">
@@ -77,7 +112,7 @@
                 <div class="col-md-12">
                     <div class="inner-content">
                         <p>
-                            Copyright &copy; 2020 Sixteen Clothing Co., Ltd.
+                            Copyright &copy; Ryland Upson 2021 - @DateTime.Now.Year
 
                             - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a>
                         </p>
@@ -94,23 +129,32 @@
 
 
     <!-- Additional Scripts -->
-    <script src="~/Scripts/js/custom.js"></script>
-    <script src="~/Scripts/js/owl.js"></script>
-    <script src="~/Scripts/js/slick.js"></script>
-    <script src="~/Scripts/js/isotope.js"></script>
-    <script src="~/Scripts/js/accordions.js"></script>
+    @*<script src="~/Scripts/js/custom.js"></script>
+        <script src="~/Scripts/js/owl.js"></script>
+        <script src="~/Scripts/js/slick.js"></script>
+        <script src="~/Scripts/js/isotope.js"></script>
+        <script src="~/Scripts/js/accordions.js"></script>*@
+
+    @Scripts.Render("~/bundles/template")
+
+    <!--ADDEDjQuery UI CDN-->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- ADDED jQuery Ajax CDN-->
+    <script src="https://cdn.jsdelivr.net/jquery.ajax.unobtrusive/3.2.4/jquery.unobtrusive-ajax.min.js"></script>
+
     @RenderSection("scripts", required: false)
 
     <script language="text/Javascript">
 
-      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-      function clearField(t){                   //declaring the array outside of the
-      if(! cleared[t.id]){                      // function makes it static and global
-          cleared[t.id] = 1;  // you could use true and false, but that's more typing
-          t.value='';         // with more chance of typos
-          t.style.color='#fff';
-          }
-      }
+        cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+        function clearField(t) {                   //declaring the array outside of the
+            if (!cleared[t.id]) {                      // function makes it static and global
+                cleared[t.id] = 1;  // you could use true and false, but that's more typing
+                t.value = '';         // with more chance of typos
+                t.style.color = '#fff';
+            }
+        }
     </script>
 
 

@@ -89,15 +89,15 @@ a.filled-button:hover {
 }
 
 .products-heading {
-	background-image: url(../images/products-heading.jpg);
+    background-image: url(../images/caleb-woods-fpmV3dQPUvU-unsplash.jpg);
 }
 
 .about-heading {
-	background-image: url(../images/about-heading.jpg);
+    background-image: url('../images/nicolas-perez-Ei1fak78UdY-unsplash.jpg');
 }
 
 .contact-heading {
-	background-image: url(../images/contact-heading.jpg);
+    background-image: url('../images/jeshoots-com-eCktzGjC-iU-unsplash.jpg');
 }
 
 .page-heading {
@@ -317,11 +317,11 @@ header .navbar {
 }
 
 .banner-item-01 {
-	padding: 300px 0px;
-	background-image: url(../images/slide_01.jpg);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center center;
+    padding: 300px 0px;
+    background-image: url(../images/rafael-hoyos-weht-EfqQLK5T_lE-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .banner-item-02 {

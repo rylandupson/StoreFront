@@ -1,0 +1,172 @@
+﻿@model IEnumerable<StoreFront.DATA.Genre>
+
+@{
+    ViewBag.Title = "Genres";
+}
+
+<div id="main" class="section">
+    <div class="container">
+        <div id="MessageDisplay" class="row">
+            <div class="col-md-10 col-md-offset-1" id="MessageContent">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>@ViewBag.Title</h2>
+
+<p class="row">
+    <button id="toggleGenreCreate" class="btn btn-primary pull-left">Add New</button>
+</p>
+
+<div id="GenreCreate">
+    @Html.Partial("AjaxCreate", new StoreFront.DATA.Genre())
+</div>
+
+<table class="table" id="GenresTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GenreName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr id="Genre-@item.GenreID">
+        <td>
+            @Html.DisplayFor(modelItem => item.GenreName)
+        </td>
+        <td>
+            <a href="" class="DetailsLink" id="@item.GenreID">Details</a> |
+            <a href="" class="EditLink" id="@item.GenreID">Edit</a> |
+            @Ajax.ActionLink("Delete", "AjaxDelete", "Genres", new { id = item.GenreID }, new AjaxOptions
+       {
+           HttpMethod = "POST",
+           Confirm = $"Are you sure you want to delete {item.GenreName} from publishers?",
+           OnSuccess = "deleteConfirmed",
+           OnFailure = "deleteFailed"
+       })
+    </tr>
+}
+
+</table>
+
+<div id="GenreDetails"></div>
+
+@section scripts {
+    <script>
+        //delete
+        function deleteConfirmed(response) {
+            var rowId = "#Genre-" + response.id;
+            $("#GenresTable").find(rowId).remove();
+
+            $('#MessageContent').html('<div class="alert alert-success">' + response.message + '</div>');
+        }//end deleteConfirmed
+
+        function deleteFailed(response, status, data) {
+            $('#MessageContent').html("<div class='alert alert-danger'>Delete unsuccessful.</div>");
+        }//end deleteFailed
+
+        //Details
+        $('a.DetailsLink').click(function (e) {
+            e.preventDefault();
+
+            $("#GenreDetails").data('gId', $(this).attr('id')).dialog({
+                width: 400,
+                height: 200,
+                open: function () {
+                    var genreID = $(this).data('gId');
+                    $(this).load(`/Genres/GenreDetails/${genreID}`);
+                },
+                title: "Genre Details",
+                modal: true,
+                resizable: false
+            });//end dialog box
+        });//end DetailsLink
+
+        //Create
+        $('#GenreCreate').hide();
+        $('#toggleGenreCreate').click(function () {
+            $('#GenreCreate').toggle();
+        });//end create toggle
+
+        $('#GenreCreateForm').submit(function (e) {
+            var formData = $(this).serializeArray();
+            console.log(formData);
+            e.preventDefault();
+
+            $.ajax({
+                url: "/Genres/AjaxCreate",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                error: function (e) {
+                    $('#MessageContent').html("<div class='alert alert-danger'>There was a problem!</div>");
+                },
+                success: function (e) {
+                    var row = '<tr><td>' + e.GenreName + '</td>' + '<td>Refresh to View Options</td></tr>'
+
+                    $('#GenresTable').append(row);
+
+                    $('#MessageContent').html('<div class="alert alert-success">Record Added!</div>');
+
+                    $("#GenreCreateForm")[0].reset();
+                }
+            });
+        });//end Create
+
+        //Edit
+        var originalContent = null;
+
+        $('a.EditLink').click(function (e) {
+            e.preventDefault();
+            var genreID = $(this).attr("id");
+
+            var row = $('#Genre-' + genreID).children();
+            console.log(row);
+
+            originalContent = {
+                GenreId: genreID,
+                GenreName: row[0].innerText
+            };
+
+            console.log("Original Content", originalContent);
+
+            $.get("/Genres/GenreEdit/" + genreID, function (data) {
+                $('#Genre-' + genreID).replaceWith('<tr id="Genre-' + genreID + '"><td colspan="5">' + data + '</td></tr>');
+            });
+
+            $(document).on("click", "#saveUpdate", function () {
+                var formData = $("#GenreEditForm").serializeArray();
+
+                $('#MessageContent').html("<div class='alert alert-warning'>Please wait...</div>");
+
+                $.ajax({
+                    url: "/Genres/AjaxEdit",
+                    type: "POST",
+                    data: formData,
+                    dataType: "json",
+                    success: function (data) {
+                        $('#MessageContent').html("<div class='alert alert-success'>Your Record was Successfully Updated!</div>");
+                        $('#GenreEditForm')[0].reset();
+
+                        $(function () {
+                            var row = '<tr>' + '<td>' + data.GenreName + '</td>' + '<td>Refresh to view options</td></tr>';
+
+                            $('#Genre-' + data.GenreID).replaceWith(row);
+                        });
+                    },
+                    error: function (e) {
+                        $('#MessageContent').html("<div class='alert alert-warning'>There was an error. Please try again or contact the sire administrator.</div>");
+                        $(function () {
+                            var row = '<tr id="Genre-' + originalContent.GenreId + '"> <td>' + originalContent.GenreName + '</td><td>Refresh to view options</td></tr>';
+
+                            $('#Genre-' + data.GenreID).replaceWith(row);
+                        });
+                    },
+                });
+            });
+        });//end Edit
+    </script>
+    }
